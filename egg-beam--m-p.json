@@ -1,0 +1,109 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2021-02-26T12:57:37+01:00",
+    "name": "Beam-MP",
+    "author": "mets.radboud@gmail.com",
+    "description": "Beam-MP Server",
+    "features": null,
+    "image": "beammp:latest",
+    "startup": ".\/BeamMP-Server",
+    "config": {
+        "files": "{\r\n    \"Server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"Debug =\": \"Debug = {{env.DEBUG}}\",\r\n            \"Private =\": \"Private = {{env.PRIVATE}}\",\r\n            \"Port =\": \"Port = {{server.build.default.port}}\",\r\n            \"Cars =\": \"Cars = {{env.CARS}}\",\r\n            \"MaxPlayers =\": \"MaxPlayers = {{env.MAXPLAYERS}}\",\r\n            \"Map =\": \"Map = \\\"{{env.MAP}}\\\"\",\r\n            \"Name =\": \"Name = \\\"^a^l\\u2b50 {{env.NAME}} \\u2b50 ^f^l- ^b^l^nFree Beam-MP Server^r^b^l provided by ^e^nVanishedServers!\\\"\",\r\n            \"Desc =\": \"Desc = \\\"{{env.DESC}}\\\"\",\r\n            \"Use =\": \"Use = \\\"{{env.RESOURCE}}\\\"\",\r\n            \"AuthKey =\": \"AuthKey = \\\"{{env.AUTH}}\\\"\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Vehicle event network online\"\r\n}",
+        "logs": "{}",
+        "stop": "exit"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n\r\n#install wget and unzip\r\napt -y update\r\napt -y install wget unzip\r\n\r\n#move to server directory\r\nmkdir \/mnt\/server\r\ncd \/mnt\/server\r\n\r\n#default config\r\necho \"# This is the BeamMP Server Configuration File v0.60\r\nDebug = false\r\nPrivate =\r\nPort =\r\nCars =\r\nMaxPlayers =\r\nMap =\r\nName =\r\nDesc =\r\nuse = \\\"Resources\\\"\r\nAuthKey =\" >> Server.cfg\r\n\r\nwget https:\/\/github.com\/BeamMP\/BeamMP-Server\/releases\/download\/v1.20-linux\/BeamMP-Server-debian\r\nmv BeamMP-Server-debian BeamMP-Server\r\nchmod +x BeamMP-Server",
+            "container": "ubuntu:18.04",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Cars",
+            "description": "Maximum amount of cars per player. Can be either 1 or 2",
+            "env_variable": "CARS",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|int|min:1|max:2"
+        },
+        {
+            "name": "Max players",
+            "description": "Maximum amount of players that can join the server.\r\nValue between 1 and 10",
+            "env_variable": "MAXPLAYERS",
+            "default_value": "5",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|int|min:1|max:10"
+        },
+        {
+            "name": "Map",
+            "description": "What map the server will use",
+            "env_variable": "MAP",
+            "default_value": "\/levels\/gridmap\/info.json",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:40"
+        },
+        {
+            "name": "Name",
+            "description": "Name for your Beam-MP server",
+            "env_variable": "NAME",
+            "default_value": "BeamMP Server",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:25"
+        },
+        {
+            "name": "Description",
+            "description": "Description for your server!",
+            "env_variable": "DESC",
+            "default_value": "Beam-MP Server description",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:300"
+        },
+        {
+            "name": "Authentication Key",
+            "description": "BeamMP's Server Authentication key. See documentation for more information",
+            "env_variable": "AUTH",
+            "default_value": "-",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:36"
+        },
+        {
+            "name": "Private",
+            "description": "Is this a private server? Private servers will not show up on the server list. Value has to be true or false",
+            "env_variable": "PRIVATE",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false"
+        },
+        {
+            "name": "Debug mode",
+            "description": "Run the server in debug mode? Value must be true or false",
+            "env_variable": "DEBUG",
+            "default_value": "false",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false"
+        },
+        {
+            "name": "Resource",
+            "description": "Resource folder location",
+            "env_variable": "RESOURCE",
+            "default_value": "\"Resources\"",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:50"
+        }
+    ]
+}
