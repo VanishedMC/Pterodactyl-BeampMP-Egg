@@ -8,7 +8,7 @@
     "author": "mets.radboud@gmail.com",
     "description": "Beam-MP Server",
     "features": null,
-    "image": "beammp:latest",
+    "image": "quay.io/m1dn1ght/beammp:Main-BeamMP-Ubuntu",
     "startup": ".\/BeamMP-Server",
     "config": {
         "files": "{\r\n    \"Server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"Debug =\": \"Debug = {{env.DEBUG}}\",\r\n            \"Private =\": \"Private = {{env.PRIVATE}}\",\r\n            \"Port =\": \"Port = {{server.build.default.port}}\",\r\n            \"Cars =\": \"Cars = {{env.CARS}}\",\r\n            \"MaxPlayers =\": \"MaxPlayers = {{env.MAXPLAYERS}}\",\r\n            \"Map =\": \"Map = \\\"{{env.MAP}}\\\"\",\r\n            \"Name =\": \"Name = \\\"^a^l\\u2b50 {{env.NAME}} \\u2b50 ^f^l- ^b^l^nFree Beam-MP Server^r^b^l provided by ^e^nVanishedServers!\\\"\",\r\n            \"Desc =\": \"Desc = \\\"{{env.DESC}}\\\"\",\r\n            \"Use =\": \"Use = \\\"{{env.RESOURCE}}\\\"\",\r\n            \"AuthKey =\": \"AuthKey = \\\"{{env.AUTH}}\\\"\"\r\n        }\r\n    }\r\n}",
