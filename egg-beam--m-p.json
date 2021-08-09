@@ -3,12 +3,12 @@
     "meta": {
         "version": "PTDL_v1"
     },
-    "exported_at": "2021-08-09T14:08:09+02:00",
+    "exported_at": "2021-08-09T14:19:57+02:00",
     "name": "Beam-MP",
     "author": "mets.radboud@gmail.com",
     "description": "Beam-MP Server",
     "features": null,
-    "image": "beammp:latest",
+    "image": "vanishedmc\/beam-mp",
     "startup": ".\/BeamMP-Server",
     "config": {
         "files": "{\r\n    \"ServerConfig.toml\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"Debug =\": \"Debug = {{env.DEBUG}}\",\r\n            \"Private =\": \"Private = {{env.PRIVATE}}\",\r\n            \"Port =\": \"Port = {{server.build.default.port}}\",\r\n            \"MaxCars =\": \"MaxCars = {{env.CARS}}\",\r\n            \"MaxPlayers =\": \"MaxPlayers = {{env.MAXPLAYERS}}\",\r\n            \"Map =\": \"Map = \\\"{{env.MAP}}\\\"\",\r\n            \"Name =\": \"Name = \\\"^a^l\\u2b50 {{env.NAME}} \\u2b50 ^f^l- ^b^l^nFree Beam-MP Server^r^b^l provided by ^e^nVanishedServers!\\\"\",\r\n            \"Description =\": \"Description = \\\"{{env.DESC}}\\\"\",\r\n            \"Use =\": \"Use = \\\"{{env.RESOURCE}}\\\"\",\r\n            \"AuthKey =\": \"AuthKey = \\\"{{env.AUTH}}\\\"\"\r\n        }\r\n    }\r\n}",
