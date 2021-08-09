@@ -3,7 +3,7 @@
     "meta": {
         "version": "PTDL_v1"
     },
-    "exported_at": "2021-02-26T12:57:37+01:00",
+    "exported_at": "2021-08-09T14:08:09+02:00",
     "name": "Beam-MP",
     "author": "mets.radboud@gmail.com",
     "description": "Beam-MP Server",
@@ -11,14 +11,14 @@
     "image": "beammp:latest",
     "startup": ".\/BeamMP-Server",
     "config": {
-        "files": "{\r\n    \"Server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"Debug =\": \"Debug = {{env.DEBUG}}\",\r\n            \"Private =\": \"Private = {{env.PRIVATE}}\",\r\n            \"Port =\": \"Port = {{server.build.default.port}}\",\r\n            \"Cars =\": \"Cars = {{env.CARS}}\",\r\n            \"MaxPlayers =\": \"MaxPlayers = {{env.MAXPLAYERS}}\",\r\n            \"Map =\": \"Map = \\\"{{env.MAP}}\\\"\",\r\n            \"Name =\": \"Name = \\\"^a^l\\u2b50 {{env.NAME}} \\u2b50 ^f^l- ^b^l^nFree Beam-MP Server^r^b^l provided by ^e^nVanishedServers!\\\"\",\r\n            \"Desc =\": \"Desc = \\\"{{env.DESC}}\\\"\",\r\n            \"Use =\": \"Use = \\\"{{env.RESOURCE}}\\\"\",\r\n            \"AuthKey =\": \"AuthKey = \\\"{{env.AUTH}}\\\"\"\r\n        }\r\n    }\r\n}",
+        "files": "{\r\n    \"ServerConfig.toml\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"Debug =\": \"Debug = {{env.DEBUG}}\",\r\n            \"Private =\": \"Private = {{env.PRIVATE}}\",\r\n            \"Port =\": \"Port = {{server.build.default.port}}\",\r\n            \"MaxCars =\": \"MaxCars = {{env.CARS}}\",\r\n            \"MaxPlayers =\": \"MaxPlayers = {{env.MAXPLAYERS}}\",\r\n            \"Map =\": \"Map = \\\"{{env.MAP}}\\\"\",\r\n            \"Name =\": \"Name = \\\"^a^l\\u2b50 {{env.NAME}} \\u2b50 ^f^l- ^b^l^nFree Beam-MP Server^r^b^l provided by ^e^nVanishedServers!\\\"\",\r\n            \"Description =\": \"Description = \\\"{{env.DESC}}\\\"\",\r\n            \"Use =\": \"Use = \\\"{{env.RESOURCE}}\\\"\",\r\n            \"AuthKey =\": \"AuthKey = \\\"{{env.AUTH}}\\\"\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \"Vehicle event network online\"\r\n}",
         "logs": "{}",
         "stop": "exit"
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\n\r\n#install wget and unzip\r\napt -y update\r\napt -y install wget unzip\r\n\r\n#move to server directory\r\nmkdir \/mnt\/server\r\ncd \/mnt\/server\r\n\r\n#default config\r\necho \"# This is the BeamMP Server Configuration File v0.60\r\nDebug = false\r\nPrivate =\r\nPort =\r\nCars =\r\nMaxPlayers =\r\nMap =\r\nName =\r\nDesc =\r\nuse = \\\"Resources\\\"\r\nAuthKey =\" >> Server.cfg\r\n\r\nwget https:\/\/github.com\/BeamMP\/BeamMP-Server\/releases\/download\/v1.20-linux\/BeamMP-Server-debian\r\nmv BeamMP-Server-debian BeamMP-Server\r\nchmod +x BeamMP-Server",
+            "script": "#!\/bin\/bash\r\n\r\n#install wget and unzip\r\napt -y update\r\napt -y install wget unzip\r\n\r\n#move to server directory\r\nmkdir \/mnt\/server\r\ncd \/mnt\/server\r\n\r\n#default config\r\necho \"[General]\r\nAuthKey = ''\r\nDebug = false,\r\nDescription = ''\r\nMap = ''\r\nMaxCars =1\r\nMaxPlayers = 5\r\nName = ''\r\nPort = 1\r\nPrivate = true\r\nResourceFolder = 'Resources'\" >> ServerConfig.toml\r\n\r\nwget https:\/\/github.com\/BeamMP\/BeamMP-Server\/releases\/latest\/download\/BeamMP-Server-linux\r\nmv BeamMP-Server-linux BeamMP-Server\r\nchmod +x BeamMP-Server",
             "container": "ubuntu:18.04",
             "entrypoint": "bash"
         }
@@ -46,7 +46,7 @@
             "name": "Map",
             "description": "What map the server will use",
             "env_variable": "MAP",
-            "default_value": "\/levels\/gridmap\/info.json",
+            "default_value": "\/levels\/gridmap_v2\/info.json",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:40"
@@ -64,9 +64,9 @@
             "name": "Description",
             "description": "Description for your server!",
             "env_variable": "DESC",
-            "default_value": "Beam-MP Server description",
+            "default_value": "^lThis is a free server provided by VanishedServers! To get a server of your own, head over to ^nhttps:\/\/beam-mp.vanishedmc.com^r^l or join the discord server over at ^nhttps:\/\/discord.gg\/jrKQmdDtGa^r^l!",
             "user_viewable": true,
-            "user_editable": true,
+            "user_editable": false,
             "rules": "required|string|max:300"
         },
         {
@@ -76,13 +76,13 @@
             "default_value": "-",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|max:36"
+            "rules": "required|string|max:50"
         },
         {
             "name": "Private",
             "description": "Is this a private server? Private servers will not show up on the server list. Value has to be true or false",
             "env_variable": "PRIVATE",
-            "default_value": "true",
+            "default_value": "false",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|in:true,false"
@@ -92,8 +92,8 @@
             "description": "Run the server in debug mode? Value must be true or false",
             "env_variable": "DEBUG",
             "default_value": "false",
-            "user_viewable": true,
-            "user_editable": true,
+            "user_viewable": false,
+            "user_editable": false,
             "rules": "required|string|in:true,false"
         },
         {
@@ -101,8 +101,8 @@
             "description": "Resource folder location",
             "env_variable": "RESOURCE",
             "default_value": "\"Resources\"",
-            "user_viewable": true,
-            "user_editable": true,
+            "user_viewable": false,
+            "user_editable": false,
             "rules": "required|string|max:50"
         }
     ]
